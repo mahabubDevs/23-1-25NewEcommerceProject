@@ -23,9 +23,11 @@ mongoose.connect(process.env.MONGODB_URI,
 
 //define routes
 const authRoutes = require('./routes/auth');
+const managerRoutes = require('./routes/manager');
 
 //use routes
 app.use('/api/auth', authRoutes);
+app.use('/api/manager', managerRoutes);
 
 //export app
 module.exports = app;

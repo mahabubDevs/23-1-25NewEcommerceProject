@@ -19,7 +19,6 @@ const authController = {
         check('password', 'Password is required').isLength({ min: 6 })
     ],
 
-
     login: async (req, res) => {
         const { email, password } = req.body;
         //check if all fields are empty
@@ -54,7 +53,6 @@ const authController = {
             return res.status(500).json({ msg: error.message });
         }
     },
-    
     register: async (req, res) => {
         console.log(req.body);
         const { username, email, role, password } = req.body;
@@ -84,6 +82,40 @@ const authController = {
         return res.status(201).json({
             msg: 'User created successfully'
         });
+    },
+    login: async (req, res) => {
+        const { email, password } = req.body;
+        //check if all fields are empty
+        if (!email || !password) {
+            return res.status(400).json({ msg: 'All fields are required' });
+        }
+        //check user exists
+        try {
+                const existingUser = await User.findOne({ email });
+            if (!existingUser) {
+                return res.status(400).json({ msg: 'User does not exist' });
+            }   
+            //check password
+            const validPassword = await bcrypt.compare(password, existingUser.password);
+            if (!validPassword) {
+                return res.status(400).json({ msg: 'Invalid credentials' });
+            }
+            //create token
+            const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.status(200).json({
+                token,
+                user: {
+                    id: existingUser._id,
+                    username: existingUser.username,
+                    email: existingUser.email,
+                    role: existingUser.role,
+                    created_at: existingUser.created_at
+                }
+            });
+        } catch (error) {
+            //handel error
+            return res.status(500).json({ msg: error.message });
+        }
     },
 }
 module.exports = authController;
