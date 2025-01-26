@@ -1,4 +1,5 @@
-
+import React from 'react'
+import AppRoute from './routes/AppRoute'
 import './App.css'
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
 
   return (
     <>
-      
+      <AppRoute />
     </>
   )
 }

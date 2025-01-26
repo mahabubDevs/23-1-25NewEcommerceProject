@@ -1,42 +1,9 @@
-// const product = require('../models/Product');
-
-// const createProduct = async (req, res) => {
-//     try {
-//         console.log(req.body);
-//         res.status(201).json({ msg: 'Product created successfully' });
-//     }catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// }
-
-// const getProducts = async (req, res) => {
-//     try {
-//         const products = await product.find();
-//         res.status(200).json(products);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// }
-// const updateProduct = async (req, res) => {
-//     res.status(200).json({ msg: 'Product updated successfully' });
-// }
-// const deleteProduct = async (req, res) => {
-//     res.status(200).json({ msg: 'Product deleted successfully' });
-// }
-
-// module.exports = {
-//     createProduct,
-//     getProducts,
-//     updateProduct,
-//     deleteProduct
-// };
-
 
 const product = require('../models/Product');
 
 const createProduct = async (req, res) => {
     try {
-        const { name, price, description, category, image, brand } = req.body;
+        const { name, price, description, category } = req.body;
 
         // সব ফিল্ড যাচাই
         if (!name || !price || !description || !category ) {
